@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>addKnight</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+
+
+<form class="form-horizontal" th:action="@{/knightList}" th:object="${knight}" method="post">
+
+
+    <div class="form-group">
+        <label class="control-label">Id</label>
+        <input class="form-control" type="number" th:field="*{id}"/>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Imie</label>
+        <input class="form-control" type="text" th:field="*{name}"/>
+         <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Wiek</label>
+        <input class="form-control" type="number" th:field="*{age}"/>
+         <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</td>
+    </div>
+
+    <div class="row">
+        <button type="submit" class="btn btn-default">Utworz rycerza</button>
+    </div>
+
+
+</form>
+</div>
+
+</body>
+</html>

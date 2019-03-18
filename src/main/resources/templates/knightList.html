@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>knightsList</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div class="container">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td><b>numer Id</b></td>
+                <td><b>Imie rycerza</b></td>
+                <td><b>Poziom</b></td>
+                <td>Zadanie</td>
+                <td><b>Pokaz wiecej</b></td>
+                <td><b>Usun rycerza</b></td>
+            </tr>
+        </thead>
+        <tbody th:each="knight : ${knights}">
+            <tr>
+                <td th:text="${knight.id}"></td>
+                <td th:text="${knight.name}"></td>
+                <td th:text="${knight.level}"></td>
+                <td>
+                    <span th:if="${knight.quest!=null}" th:text="${knight.quest.description}"/>
+                    <span th:if="${knight.quest==null}"><a th:href="${'/chooseTask?id='+knight.id}">Ustaw zadanie</a> </span>
+                </td>
+                <td><a th:href="${'/showMore/show/'+knight.id}">Pokaz wiecej</a> </td>
+                <td><a th:href="${'/knightList/delete/' + knight.id}">Usun</a></td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="button">
+        <button type="submit" class="btn btn-default"><a href="/createKnight">Zarekrutuj nowego rycerza</a></button>
+    </div>
+</div>
+</body>
+
+</html>
