@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -32,14 +29,14 @@ public class Knight {
     @Max(100)
     private int age;
     private int level;
+    @OneToOne
     private Quest quest;
 
     public Knight() {
 
     }
 
-    public Knight(int id, String name, int age) {
-        this.id = id;
+    public Knight(String name, int age) {
         this.name = name;
         this.age = age;
         this.level = 1;

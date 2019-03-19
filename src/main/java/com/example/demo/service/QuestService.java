@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-
 @Service
 public class QuestService {
 
@@ -22,14 +21,11 @@ public class QuestService {
 
     private Random random = new Random();
 
-    public void assignAtask(int id) {
-        List<Quest> allKnight = questRepository.getQuestList();
+    public void assignAtask(String name) {
+       List<Quest> allKnight = questRepository.getQuestList();
         Quest quest = allKnight.get(random.nextInt(allKnight.size()));
-        knightRepository.getOneKnight(id).setQuest(quest);
-        questRepository.deleteQuest(quest);
-
-
-    }
+        knightRepository.getOneKnightName(name).ifPresent(knight -> knight.setQuest(quest));
+         }
 
     public List<Quest> getAllNoStarted() {
         List<Quest> questList = questRepository.getQuestList().stream().filter(s -> !s.isStarted()).collect(Collectors.toList());
@@ -39,4 +35,10 @@ public class QuestService {
     public void updateQuest(Quest quest) {
         questRepository.updateQuest(quest);
     }
+
+
+
+
+
+
 }

@@ -10,7 +10,7 @@ public class KnightTest {
 
     @Test
     public void knightStart(){
-        Knight knight = new Knight(4,"Anna",25);
+        Knight knight = new Knight("Anna",25);
         Quest quest = new Quest("Uratuj ksiezniczke");
         knight.setQuest(quest);
 

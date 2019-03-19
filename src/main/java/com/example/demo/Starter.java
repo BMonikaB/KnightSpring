@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class Starter implements CommandLineRunner {
 
@@ -24,15 +26,15 @@ public class Starter implements CommandLineRunner {
     QuestService questService;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
         questRepository.createRandomQuest();
         questRepository.createRandomQuest();
-        questRepository.createRandomQuest();
-        questRepository.createRandomQuest();
 
-        questService.assignAtask(1);
-        questService.assignAtask(2);
+        knightRepository.createKnight("Percival",32);
+
+        questService.assignAtask("Percival");
 
 
     }

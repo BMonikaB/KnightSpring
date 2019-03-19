@@ -5,14 +5,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Quest {
-
 
 
     @Id
@@ -23,14 +20,15 @@ public class Quest {
 
     private int reward = 100;
 
-    private int lenght = 30000;
+    private int lenghtSec = 30;
 
     private boolean started = false;
 
     private boolean completed = false;
 
+    private LocalDateTime localDateTime;
 
-    public Quest(int id,String description) {
+    public Quest(int id, String description) {
         this.id = id;
         this.description = description;
     }
@@ -60,19 +58,29 @@ public class Quest {
     }
 
     public int getLenght() {
-        return lenght;
+        return lenghtSec;
     }
 
     public void setLenght(int lenght) {
-        this.lenght = lenght;
+        this.lenghtSec = lenght;
+    }
+
+
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public int getLenghtSec() {
+        return lenghtSec;
+    }
+
+    public void setLenghtSec(int lenghtSec) {
+        this.lenghtSec = lenghtSec;
     }
 
     public boolean isStarted() {
         return started;
-    }
-
-    public void setStarted(boolean started) {
-        this.started = started;
     }
 
     public boolean isCompleted() {
@@ -83,6 +91,14 @@ public class Quest {
         this.completed = completed;
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -90,6 +106,8 @@ public class Quest {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 
 
     @Override

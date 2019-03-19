@@ -1,6 +1,7 @@
 package com.example.demo.repo;
 
 import com.example.demo.domain.Knight;
+import com.example.demo.utils.Ids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,22 +11,26 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
 public class OneKnightRepository implements KnightRepository {
 
 
-
-
     private Map<Integer,Knight> knights = new HashMap<>();
 
     @Override
-    public void createKnight(int id,String name, int age){
-        knights.put(id,new Knight(id,name,age));
+    public void createKnight(String name, int age){
+       Knight knight = new Knight(name, age);
+        knight.setId(Ids.getNewId(knights.keySet()));
+        knights.put(knight.getId(),new Knight(name,age));
+
     }
 
     @Override
@@ -50,16 +55,19 @@ public class OneKnightRepository implements KnightRepository {
       return knight;
     }
 
+    public Optional<Knight> getOneKnightName(String name){
 
-
+        Optional<Knight> knightByName = knights.values().stream().filter(knight -> knight.getName().equals(name)).findAny();
+        return knightByName;
+    }
 
 
     @Override
     @PostConstruct
     public void create() {
 
-        Knight lancelot = new Knight(1,"Lancelot", 20);
-        Knight percival = new Knight(2,"Percival",30);
+        Knight lancelot = new Knight("Lancelot", 20);
+        Knight percival = new Knight("Percival",30);
 
 
 
@@ -69,7 +77,8 @@ public class OneKnightRepository implements KnightRepository {
 
     @Override
     public void createKnight(Knight knight) {
-        knights.put(knight.getId(),new Knight(knight.getId(),knight.getName(),knight.getAge()));
+        knight.setId(Ids.getNewId(knights.keySet()));
+        knights.put(knight.getId(),knight);
     }
 
     @Override

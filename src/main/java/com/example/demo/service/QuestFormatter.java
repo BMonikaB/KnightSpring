@@ -16,9 +16,9 @@ public class QuestFormatter implements Formatter<Quest> {
     QuestRepository questRepository;
 
     @Override
-    public Quest parse(String idd, Locale locale) throws ParseException {
-       Integer id = Integer.parseInt(idd);
-       return questRepository.getQuestId(id);
+    public Quest parse(String s, Locale locale) throws ParseException {
+        Integer id = Integer.parseInt(s);
+        return questRepository.getQuestId(id);
 
     }
 

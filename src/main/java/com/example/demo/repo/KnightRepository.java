@@ -4,9 +4,10 @@ import com.example.demo.domain.Knight;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 
 public interface KnightRepository {
-    void createKnight(int id, String name, int age);
+    void createKnight(String name, int age);
 
     void delete(int id);
 
@@ -20,4 +21,7 @@ public interface KnightRepository {
     void createKnight(Knight knight);
 
     void updateKnight(int id, Knight knight);
+
+
+    public Optional<Knight> getOneKnightName(String name);
 }

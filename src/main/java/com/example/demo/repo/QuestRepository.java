@@ -1,33 +1,43 @@
 package com.example.demo.repo;
 
-import com.example.demo.domain.Knight;
 import com.example.demo.domain.Quest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 public class QuestRepository {
 
-    Map<Integer, Quest> questList = new HashMap<>();
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    //Map<Integer, Quest> questList = new HashMap<>();
 
     private Random random = new Random();
 
 
-    public void createQuest(Quest quest) {
-        questList.put(quest.getId(),new Quest(quest.getId(),quest.getDescription()));
+    @Transactional
+    public void createQuest(String description) {
+        Quest quest = new Quest(description);
+        entityManager.persist(quest);
+        System.out.println(quest);
     }
 
 
     public void deleteQuest(Quest quest) {
-        System.out.println(questList.remove(quest));
+        entityManager.remove(quest);
     }
 
     public List<Quest> getQuestList() {
-        return new ArrayList<>(questList.values());
+
+        return entityManager.createQuery("SELECT q from Quest q", Quest.class).getResultList();
     }
 
     @PostConstruct
@@ -40,6 +50,7 @@ public class QuestRepository {
     }
 
 
+    @Transactional
     public void createRandomQuest() {
         List<String> description = new ArrayList<>();
 
@@ -49,23 +60,28 @@ public class QuestRepository {
         description.add("Wez udział w turnieju");
 
         String desc = description.get(random.nextInt(description.size()));
-        createQuest(new Quest(desc));
+        createQuest(desc);
     }
 
     public void delete(Quest quest) {
-        System.out.println(questList.remove(quest));
+      //  System.out.println(questList.remove(quest));
+        entityManager.remove(quest);
+    }
+
+
+    @Transactional
+    public void updateQuest(Quest quest) {
+        entityManager.merge(quest);
+    }
+
+    @Transactional
+    public Quest getQuestId(Integer id) {
+        return entityManager.find(Quest.class, id);
+
     }
 
     @Override
     public String toString() {
-        return "QuestRepository{" + "questList=" + questList + '}';
-    }
-
-    public void updateQuest(Quest quest) {
-        questList.put(quest.getId(),quest);
-    }
-
-    public Quest getQuestId(Integer id) {
-        return questList.get(id);
+        return "QuestRepository{" + "entityManager=" + entityManager + ", random=" + random + '}';
     }
 }
